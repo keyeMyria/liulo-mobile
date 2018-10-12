@@ -3,12 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ViewUtil {
-  static bool getValueCheck(bool isChecked) {
-    return !isChecked;
+  static String getValueCheck(String status) {
+    if (status == "pending")
+      return "anwsered";
+    else if (status == "anwsered") return "pending";
+    return "pending";
   }
 
-  static Color getColorCheckButton(bool isChecked) {
-    if (isChecked) return Colors.blue;
+  static Color getColorCheckButton(String status) {
+    if (status == "pending")
+      return Colors.grey;
+    else if (status == "anwsered") return Colors.blue;
     return Colors.grey;
   }
 

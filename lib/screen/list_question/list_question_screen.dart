@@ -59,27 +59,22 @@ class _ListQuestionScreenState extends State<ListQuestionScreen>
         Divider(height: 5.0),
         ListTile(
           title: Text(
-            '${listQuestion[position].title}',
+            '${listQuestion[position].description}',
             style: TextStyle(
               color: Colors.deepOrangeAccent,
             ),
           ),
-          subtitle: Text(
-            '${listQuestion[position].body}',
-            style: new TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
-          ),
+
           leading: Column(
             children: <Widget>[
               IconButton(
                 icon: const Icon(Icons.check_circle),
                 color: ViewUtil.getColorCheckButton(
-                    listQuestion[position].isChecked),
+                    listQuestion[position].status),
                 onPressed: () {
                   setState(() {
-                    listQuestion[position].isChecked = ViewUtil.getValueCheck(
-                        listQuestion[position].isChecked);
+                    listQuestion[position].status = ViewUtil.getValueCheck(
+                        listQuestion[position].status);
                   });
                 },
               ),
@@ -189,5 +184,10 @@ class _ListQuestionScreenState extends State<ListQuestionScreen>
     setState(() {
       this.listQuestion = items;
     });
+  }
+
+  @override
+  void onGetDataFailed(String error) {
+    setLoading(false);
   }
 }

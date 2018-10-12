@@ -4,13 +4,14 @@ import 'dart:collection';
 import 'package:liulo/model/response/create_event_response.dart';
 import 'package:liulo/model/response/create_topic_response.dart';
 import 'package:liulo/model/response/list_event_response.dart';
+import 'package:liulo/model/response/list_question_response.dart';
 import 'package:liulo/model/response/list_topic_response.dart';
 import 'package:liulo/model/response/login_response.dart';
 import 'package:liulo/utils/network_util.dart';
 
 class RestDatasource {
   NetworkUtil _netUtil = new NetworkUtil();
-  static final BASE_URL = "http://192.168.40.156:4000/api/v1";
+  static final BASE_URL = "https://liulo.dwarvesf.com/api/v1";
   static final LOGIN_URL = BASE_URL + "/login_google";
   static final LIST_EVENT = BASE_URL + "/event";
   static final TOPIC = BASE_URL + "/topic";
@@ -80,6 +81,19 @@ class RestDatasource {
     });
   }
 
+  Future<ListQuestionResponse> getListQuestion(String token, int id) {
+    var link = '${TOPIC}/${id}/question';
+    return _netUtil
+        .get(link, headersGet: getHeaders(token))
+        .then((dynamic res) {
+      print(res.toString());
+      if (res["error"] != null && res["error"])
+        throw new Exception(res["error_msg"]);
+      var listQuestionResponse = new ListQuestionResponse();
+      listQuestionResponse = ListQuestionResponse.fromJson(res);
+      if (listQuestionResponse != null) return listQuestionResponse;
+    });
+  }
   Map<String, String> getHeaders(String token) {
     var authorization = 'Bearer ${token}';
     Map<String, String> headers = new HashMap();
